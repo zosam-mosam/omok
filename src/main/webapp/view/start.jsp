@@ -1,52 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<link href="start.css?alert" rel="stylesheet">
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./start.css?alert" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-<title>시작화면</title>
-<script>
+    <title>시작페이지</title>
+    <script>
       $(window).on("load", function () {
         setTimeout(function () {
           $("#startButton").css("display", "flex");
-        }, 3000);
+        }, 1000);
         $("#startButton").on("click", function () {
           $("#load").fadeOut(1000);
         });
       });
     </script>
-<div id="load">
+    <div id="load">
       <div id="loadingImgWrap">
-        <img src="img/1200x1200.gif" alt="loading" id="loadingImg" />
+        <img src="./img/1200x1200.gif" alt="loading" id="loadingImg" />
       </div>
       <div id="startImgWrap">
         <img
-          src="img/NicePng_start-button-png_1108890.gif"
+          src="./img/NicePng_start-button-png_1108890.gif"
           id="startButton"
         />
       </div>
     </div>
-</head>
-<body>
+  </head>
+  <body>
     <div class="startPageWrap">
       <div class="header">
-        <img
-          src="img/돌맹이.png"
-          alt="로고"
-          class="headerLogo"
-        />
+        <img src="./img/roc1.png" alt="로고" class="headerLogo" />
       </div>
       <div class="container">
         <h2>로그인</h2>
         <div class="loginInfo">
-          <form
-            method="post"
-            id="login-form"
-            action="start.do"
-          >
+          <form method="get" id="login-form" action="start.do">
             <input
               type="text"
               placeholder="아이디를 입력해주세요"

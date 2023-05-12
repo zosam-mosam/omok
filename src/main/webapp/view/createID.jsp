@@ -1,4 +1,3 @@
-<%@page import="org.json.JSONObject"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="lombok.Data"%>
 <%@page import="java.util.List"%>
@@ -15,7 +14,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <title>회원가입 페이지</title>
-
 <script>
       function checkId() {
         var id = $("#id").val(); //id값이 "id"인 입력란의 값을 저장
@@ -49,7 +47,7 @@
     <div class="startPageWrap">
       <div class="header">
         <img
-          src="img/돌맹이.png"
+          src="./img/roc1.png"
           alt="로고"
           class="headerLogo"
         />
