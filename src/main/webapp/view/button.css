@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+/* button */
+.area_btn{
+	text-align: center;
+}
+button{
+	margin: 10px;
+}
+
+.w-btn {
+    position: relative;
+    border: none;
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 15px;
+    font-family: "paybooc-Light", sans-serif;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.25s;
+}
+.w-btn:hover {
+    letter-spacing: 2px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+/*#b8b8b8*/
+.w-btn-black {
+    border: 3px solid #E06D7A;
+    color: #E06D7A;
+}
+.w-btn-white {
+    border: 3px solid #5EB89F;
+    color: #5EB89F;
+}
+
+
+
