@@ -17,11 +17,11 @@
 	        <div class="left">
 	        	<div class="area_btn">
 		        	<div class="area_btn1">
-	        			<button onclick="btn_ready(1)" class="w-btn w-btn-black" type="button">user1 ready</button>
+	        			<button onclick="btn_ready(1)" class="w-btn w-btn-black" type="button" id="r-btn1">ready</button>
 	        		</div>
 	        		<br>
 		        	<div class="area_btn2">
-		        		<button onclick="btn_ready(2)" class="w-btn w-btn-white" type="button">user2 ready</button>
+		        		<button onclick="btn_ready(2)" class="w-btn w-btn-white" type="button" id="r-btn2">ready</button>
 		        	</div>
 	        	</div>
 	        </div>
