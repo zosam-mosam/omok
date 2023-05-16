@@ -30,8 +30,8 @@ public class MemberController extends HttpServlet {
 		System.out.println(path);
 		System.out.println(fileName);
 		if("start.do".equals(fileName)) {
-			String id=request.getParameter("userId");
-			String pwd=request.getParameter("userPwd");
+			String id=request.getParameter("id");
+			String pwd=request.getParameter("pwd");
 			MemberDAO dao=new MemberDAO();
 			System.out.println(id);
 			System.out.println(pwd);
@@ -40,15 +40,18 @@ public class MemberController extends HttpServlet {
 				HttpSession sess = request.getSession();
 				sess.setAttribute("loginInfo", vo);
 				if(vo!=null) {
+					response.setContentType("text/html; charset=UTF-8");
 					sess = request.getSession();
 					sess.setAttribute("loginInfo", vo);
-					request.getRequestDispatcher("waiting.jsp").forward(request, response);
+//					request.getRequestDispatcher("waiting.jsp").forward(request, response);
+					response.getWriter().print("true");
 				}
 				else {
 					response.setContentType("text/html; charset=UTF-8");
 					PrintWriter writer = response.getWriter();
-					writer.println("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.');location.href='start.jsp'</script>"); 
-					writer.close();
+					writer.print("false");
+//					writer.println("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.');location.href='start.jsp'</script>"); 
+//					writer.close();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -76,6 +79,17 @@ public class MemberController extends HttpServlet {
 				}
 			} catch (Exception e) {
 				
+			}
+		}
+		else if("idCheck.do".equals(fileName)) {
+			String id = request.getParameter("id");
+			MemberDAO dao=new MemberDAO();
+			try {
+				boolean check=dao.memberCheck(id);		
+				System.out.println(check);
+				response.getWriter().print(check);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}

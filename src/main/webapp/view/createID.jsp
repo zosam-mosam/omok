@@ -20,7 +20,7 @@
         console.log(id);
         if(id!==""){
         	$.ajax({
-            	url:'/omokGame/idCheck.do',
+            	url:'/omok/idCheck.do',
             	type:'post',
             	data:{id:id},
             	success:function(check){
