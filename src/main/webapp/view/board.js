@@ -157,9 +157,9 @@ function isClicked(xPos, yPos) {
   ) {
     boardArray[resultPos.x][resultPos.y] = turn;
     //checkOmok(turn, resultPos.x, resultPos.y);
+    
     turn = 3 - turn; //차례 변경
   }
   updateBoard();
 }
 
-s
