@@ -145,6 +145,7 @@ function drawNotClicked(xPos, yPos) {
     ctx.globalAlpha = 1;
   }
 }
+
 //돌 놓기
 function isClicked(xPos, yPos) {
   resultPos = getMouseRoundPos(xPos, yPos);
@@ -160,6 +161,12 @@ function isClicked(xPos, yPos) {
     
     turn = 3 - turn; //차례 변경
   }
-  updateBoard();
+	let message = {};
+	message.xPos = resultPos.x;
+	message.yPos = resultPos.y;
+	message.type = 2;
+	message.turn = turn;
+	sendMessage(JSON.stringify(message));
+  
 }
 

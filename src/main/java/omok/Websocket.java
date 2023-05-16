@@ -1,10 +1,7 @@
 package omok;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.websocket.OnClose;
@@ -16,101 +13,104 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
 //WebSocket 호스트 설정
-@ServerEndpoint("/websocket4/{roomId}")
-public class Websocket{
-	
-	private static final long serialVersionUID = 1L;
-	
-	// 접속 된 클라이언트 WebSocket session 관리 리스트
-	private static List<Session> sessionUsers = Collections.synchronizedList(new ArrayList<>());
-    
-	//게임정보
-	private static Map<Integer, Object> roomList = new HashMap<Integer, Object>();
-	//private static List<Room> roomList = Collections.synchronizedList(new ArrayList<>());
-	
-	public Websocket() {
-        super();
+
+@ServerEndpoint("/websocket/{roomId}")
+public class Websocket {
+
+    private static Map<Integer, RoomVO> roomList = Collections.synchronizedMap(new HashMap<Integer, RoomVO>());
+    //synchronizedMap : 소켓 연결 시 내부적으로 쓰레드가 생성되고 실행된다.
+    // 쓰레드 간의 데이터 동기화를 보존하기 위해
+
+    public Map<Integer, RoomVO> getSessionUsers2() {
+    		return roomList;
     }
-    
     @OnOpen
-    public void handleOpen(Session userSession, @PathParam("roomId") int roomId) {
-    	// 클라이언트가 접속하면 WebSocket세션을 리스트에 저장한다.
-    	System.out.println(userSession);
-    	sessionUsers.add(userSession);
-    	roomList.put(roomId, new Room());
-    	// 콘솔에 접속 로그를 출력한다.
-    	System.out.println("client is now connected...");
-    }
-    
-	@OnMessage
-    public void handleMessage(String message, Session userSession) throws IOException {
+    public void handleOpen(Session userSession, @PathParam("roomId") String roomId) {
     	
-      try {
-    	  JSONParser parser = new JSONParser();
-    	  
-    	  //server to client
-    	  
-    	  //client to server
-    	  JSONObject jsonObject = (JSONObject) parser.parse(message);
-    	  System.out.println(jsonObject);
-    	  
-    	  int room = Integer.parseInt(jsonObject.get("room").toString());
-    	  int type = Integer.parseInt(jsonObject.get("type").toString());
-    	  String user_id = jsonObject.get("id").toString();
-    	  
-    	  if(type==1) {
-    		  
-    		  int stone = Integer.parseInt(jsonObject.get("stone").toString());
-    		  
-    		  if(takeGame(room, user_id, stone)) {
-    			  JSONObject obj = new JSONObject();
-    			  obj.put("room", room);
-        		  obj.put("type", type);
-        		  obj.put("stone", stone);
-        		  obj.put("settedUser", user_id);
-        		  obj.put("ready", isReady(room));
-        		  
-        		  sessionUsers.forEach(session -> {
-        			  try {
-        				  session.getBasicRemote().sendText(obj.toJSONString());
-        			  }catch(Exception e) {
-        				  e.printStackTrace();
-        			  }
-        		  });
-    		  }
-    	  }
-      }catch (Exception e) {
-          // TODO Auto-generated catch block
+    	// Test Code
+    int roomNum = Integer.parseInt(roomId);
+    System.out.println("방 객체 유무 : " + roomList.get(roomNum)); // 방 객체가 없을 때 -> 방 객체를 생성하면서 주입
+    if(roomList.get(roomNum) == null) {
+    		RoomVO ro = new RoomVO();
+    		ro.setRoomNo(roomNum);
+    		System.out.println("방 번호 : " + roomNum);
+    		ro.addLs(userSession);
+    		System.out.println("Session 값 " + userSession);
+    		roomList.put(roomNum, ro);
+    		System.out.println("객체 추가 결과 " + roomList);
+    } else { // 있으면 추가만
+    		roomList.get(roomNum).addLs(userSession);
+    		System.out.println("추가만 " + roomList);
+    }
+}
+    // WebSocket으로 메시지가 오면 요청되는 함수
+    @SuppressWarnings("unchecked")
+	@OnMessage
+    public void handleMessage(String message, Session userSession, @PathParam("roomId") String roomId) throws IOException {
+    		System.out.println(message);
+    		try {
+			
+			//server to client
+			
+			//client to server
+			JSONObject jsonObject = (JSONObject) new JSONParser().parse(message);
+			
+			int type = Integer.parseInt(jsonObject.get("type").toString());
+			int roomNum = Integer.parseInt(jsonObject.get("roomNum").toString());
+			RoomVO vo = (RoomVO) roomList.get(roomNum);
+			
+			// 타입별 메시지 처리
+			if(type == 1) {
+				String user_id = jsonObject.get("id").toString();
+				//객체에서 꺼내오는걸로 바꾸기
+				//takeGame(user_id);
+				
+				JSONObject obj = new JSONObject();
+				obj.put("type", 1);
+				obj.put("black", vo.getBlack());
+				obj.put("white", vo.getWhite());
+				obj.put("board", vo.getBoard());
+				
+				
+			} else if(type == 2) { // 돌
+				int xPos = Integer.parseInt(jsonObject.get("xPos").toString());
+				int yPos = Integer.parseInt(jsonObject.get("yPos").toString());
+				int turn = Integer.parseInt(jsonObject.get("turn").toString());
+				JSONObject obj = new JSONObject();
+				obj.put("type", 2);
+				obj.put("xPos", xPos);
+				obj.put("yPos", yPos);
+				obj.put("turn", turn);
+			} else if (type == 3) { // 채팅				
+//				String name = "anonymous";
+			}
+      } catch (Exception e) {
           e.printStackTrace();
       }
-      
-      
-      
     }
-    
-    @OnClose	//로그인 
-    public void handleClose(Session userSession) {
-      // session 리스트로 접속 끊은 세션을 제거한다.
-      sessionUsers.remove(userSession);
-      // 콘솔에 접속 끊김 로그를 출력한다.
-      System.out.println("client is now disconnected...");
+    @OnClose	
+    public void handleClose(Session userSession, @PathParam("roomId") String roomId) {
+    	
+    	RoomVO vo = (RoomVO) roomList.get(roomId);
+    	//room에서 black? white? 관전자?
+    	// 그 session을 remove 해야됨
+    	roomList.get(Integer.parseInt(roomId)).getUserList().remove(userSession);
+    	System.out.println("client is now disconnected...");
     }
     
     //준비되면 돌 선택하는 메소드
     public boolean takeGame(int roomId, String user_id, int stone) {
-    	
-    	boolean result= false;
   	
-    	Room room = (Room) roomList.get(roomId);
+    	RoomVO vo = (RoomVO) roomList.get(roomId);
+    	boolean result=false;
     	
-    	if (stone==1 && room.getBlack()==null) {
-    		room.setBlack(user_id);    		
+    	if (stone==1 && vo.getBlack()==null) {
+    		vo.setBlack(user_id);    		
     		result=true;
     	}
-    	else if(stone==2 && room.getWhite()==null) {
-    		room.setWhite(user_id);
+    	else if(stone==2 && vo.getWhite()==null) {
+    		vo.setWhite(user_id);
     		result=true;
     	}
  
@@ -121,25 +121,24 @@ public class Websocket{
     	
     	int result= 0;
       	
-    	Room room = (Room) roomList.get(roomId);
+    	RoomVO vo = roomList.get(roomId);
     	
-    	if(room.getRoomId() == roomId) {
-			  System.out.println(room.getBlack()+" "+room.getWhite());
-			  if(room.getBlack()==null || room.getWhite()==null) result=0;
-			  else result=room.getTurn();
-    	}
+    	
+    	System.out.println(vo.getBlack()+" "+vo.getWhite());
+		if(vo.getBlack()==null || vo.getWhite()==null) result=0;
+		else result=vo.getTurn_count();
+    	
     	return result;
     }
     
 }
-
 // 클라 to 서버
 // 게임 종료 여부   => 0 1
+// 방번호 => 
 // 몇 번째 턴인지 t  => int
 // 자기가 놓은 좌표 값  => 1열씩 => 0 1 흑 2 백
 // 채팅인지 아니면 데이터 값인지 flag => 1 데이터 2 채팅 0 기본값
 // 자기가 흑인지, 백인지 (관전자 구분)
-
 // 서버 to 클라
 //게임 종료 여부   => 0 1
 //몇 번째 턴인지 t  => int
