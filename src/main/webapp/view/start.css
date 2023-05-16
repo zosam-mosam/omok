@@ -66,7 +66,13 @@ body {
   cursor: pointer;
   color: #0b0149;
 }
-
+#login-form > #lo {
+  color: #fff;
+  font-size: 16px;
+  border: 0.5px solid #0b0149;
+  background-color: #0b0149;
+  margin-top: 20px;
+}
 #login-form > input::placeholder {
   background-image: linear-gradient(
     to right,
@@ -79,13 +85,7 @@ body {
   color: transparent;
 }
 
-#login-form > input[type="submit"] {
-  color: #fff;
-  font-size: 16px;
-  border: 0.5px solid #0b0149;
-  background-color: #0b0149;
-  margin-top: 20px;
-}
+
 
 #load {
   width: 100%;
