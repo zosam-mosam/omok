@@ -5,10 +5,19 @@ import javax.websocket.Session;
 import lombok.Data;
 @Data
 public class RoomVO {
+	
 	private int roomNo;
 	private List<Session> userList;
 	private int playerCount;
 	
+    // 고유 값
+    private int[][] board = new int[20][20];
+    //돌 선택
+    private String black;
+    private String white;
+	
+    private int turn_count;
+    
 	RoomVO() {
 		this.userList = new ArrayList<Session>();
 		this.playerCount = 0;
@@ -27,4 +36,6 @@ public class RoomVO {
 			}
 		}
 	}
+	
+	
 }
