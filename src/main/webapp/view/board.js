@@ -162,4 +162,4 @@ function isClicked(xPos, yPos) {
   updateBoard();
 }
 
-
+s
