@@ -1,7 +1,5 @@
 updateBoard();
 
-
-
 board.addEventListener(
   "mousemove",
   function (evt) {
@@ -10,6 +8,7 @@ board.addEventListener(
   },
   false
 );
+
 board.addEventListener(
   "mousedown",
   function (evt) {
