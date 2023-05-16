@@ -163,5 +163,3 @@ function isClicked(xPos, yPos) {
   updateBoard();
 }
 
-/* 서버로 보낼 message작성 */
-function sendStonePos(){}
