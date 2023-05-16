@@ -25,6 +25,13 @@ button{
     transform: scale(1.2);
     cursor: pointer;
 }
+
+.w-btn:disabled {
+    border: 3px solid #b8b8b8;
+    color: #b8b8b8;
+    pointer-events: none;
+}
+
 /*#b8b8b8*/
 .w-btn-black {
     border: 3px solid #E06D7A;

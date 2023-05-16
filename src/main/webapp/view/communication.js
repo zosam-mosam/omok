@@ -1,11 +1,14 @@
-const webSocket = new WebSocket("ws://localhost:8090/omok/websocket4"); //나중에 바꾸기 // 192.168.0.127
-
+var url_href = window.location.href;
+var url = new URL(url_href);
+var roomId = url.searchParams.get("roomId");
+console.log("rooid is "+roomId);
+const webSocket = new WebSocket("ws://localhost:8090/omok/websocket/"+ roomId); //나중에 바꾸기 // 192.168.0.127
 const user_id=document.getElementById("user");
+
 const messageTextArea = document.getElementById("messageTextArea");
 
 webSocket.onopen = function(message) {
 	
-	status.valueOf
     messageTextArea.value += "Server connect...\n";
   };
   
@@ -24,7 +27,7 @@ webSocket.onmessage = function(message) {
     messageTextArea.value += message.data + "\n";
     
     let received = JSON.parse(message.data);
-	if(received.type == 1) console.log("됬다");
+	if(received.type == 2) console.log("됬다");
     
 };
 
