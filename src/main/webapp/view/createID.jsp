@@ -1,4 +1,3 @@
-<%@page import="org.json.JSONObject"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="lombok.Data"%>
 <%@page import="java.util.List"%>
