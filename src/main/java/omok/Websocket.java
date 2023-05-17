@@ -64,26 +64,22 @@ public class Websocket {
 			if(type == 1) {
 				String user_id = jsonObject.get("id").toString();
 				int stone = Integer.parseInt(jsonObject.get("stone").toString());
-				//객체에서 꺼내오는걸로 바꾸기
-				//takeGame(user_id);
-				if(vo.setStone(user_id, stone)) {
-					JSONObject obj = new JSONObject();
-					obj.put("type", 1);
-					obj.put("black", vo.getBlack());
-					obj.put("white", vo.getWhite());
-					obj.put("turn", vo.getTurn_count());
+				
+				vo.setStone(user_id, stone);
+				
+				JSONObject obj = new JSONObject();
+				obj.put("type", 1);
+				obj.put("black", vo.getBlack());
+				obj.put("white", vo.getWhite());
+				obj.put("turn", vo.getTurn_count());
 					
-					vo.getUserList().forEach(session -> {
-	        			  try {
-	        				  session.getBasicRemote().sendText(obj.toJSONString());
-	        			  }catch(Exception e) {
-	        				  e.printStackTrace();
-	        			  }
-	        		  });
-				}
-				
-				
-				
+				vo.getUserList().forEach(session -> {
+					try {
+	        			session.getBasicRemote().sendText(obj.toJSONString());
+	        		}catch(Exception e) {
+	        			e.printStackTrace();
+	        		}
+	        	});
 				
 			} else if(type == 2) { // 돌
 				int xPos = Integer.parseInt(jsonObject.get("xPos").toString());
