@@ -13,6 +13,7 @@ html {
   background-image: url("./img/space2.gif");
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
 }
 body {
   font-size: 14px;

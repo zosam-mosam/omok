@@ -31,7 +31,9 @@
 	            <div class="board">
 	                <canvas id="board" width="700" height="700"></canvas>
 	            </div>
+                    <input class="dis" onclick="disconnect()" value="기권하기/disconnected" type="button" />
 	        </div>
+	        
 	        <div class="right">
 	        	<div class="chatting">
             <div class="chathead">
@@ -43,12 +45,9 @@
             <div class="sendbox">
                 <form>
                     <div class="nametext">
-                        <input class="user" type="text" placeholder="name" size=5 value="" />
                         <input class="textMessage" type="text" placeholder="input message"/>
                     </div>
-                    <br/>
                     <input class="send" onclick="sendMessage()" value="Send" type="button" />
-                    <input class="dis" onclick="disconnect()" value="Disconnect" type="button" />
                 </form>
             </div>
           </div>

@@ -50,18 +50,18 @@ html{
     height:700px;
     float: left;
 }
-.middle{
+div.middle{
+	display: grid;
+	place-items: center;
     width:700px;
-    height:700px;
-    float: left;
+    height:800px;
+    float: left;	
 }
 .board{
     width:100%;
 	display:flex;
 	justify-content: center;
-	
-	
-   
+	   
 }
 #board{
 	margin: 0 auto;
