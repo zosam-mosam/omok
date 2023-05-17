@@ -1,5 +1,5 @@
 var roomId = new URL(window.location.href).searchParams.get("roomId");
-const webSocket = new WebSocket("ws://localhost:8090/omok/websocket/" + roomId);
+const webSocket = new WebSocket("ws://localhost:90/omok/websocket/" + roomId);
 
 const user_id=document.getElementById("user");
 const messageTextArea = document.getElementById("messageTextArea");
@@ -22,8 +22,8 @@ webSocket.onerror = function(message) {
 };
    
 webSocket.onmessage = function(message) {
-      
-    messageTextArea.value += message.data + "\n";
+     
+    console.log(message.data);
     
     let received = JSON.parse(message.data);
 	if(received.type == 1) selectedStone(received);
@@ -60,7 +60,6 @@ $('#btn_ready').addEventListener(
 function btn_ready(stone){
 
 	let message = {};
-	message.room=0;
 	message.id = user_id.value;
 	message.type = 1;
 	message.stone = stone;
@@ -71,11 +70,22 @@ function btn_ready(stone){
 //선택된 돌 disabled
 function selectedStone(message){
 	//console.log(message);
-	const ready_btn=document.getElementById("r-btn"+message.stone);
-	ready_btn.innerText = message.settedUser+" "+ready_btn.innerText;
-	ready_btn.disabled=true;
+	const black_btn=document.getElementById("r-btn1");
+	const white_btn=documetn.getElementById("r-btn2");
 	
-	if(message.ready != 0) addEvent();
+	if(message.black == user_id || message.white== user_id){
+		black_btn.disabled = true;
+		white_btn.disabled = true;
+	}
+	if(message.black!=null) {
+		black_btn.innerText =  message.settedUser+" "+ready_btn.innerText;
+		black_btn.disabled = true;
+	}
+	if (message.white!=null) {
+		white_btn.innerText =  message.settedUser+" "+ready_btn.innerText;
+		white_btn.disabled = true;
+	}
+
 }
 
 function addEvent(){

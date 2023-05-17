@@ -37,5 +37,19 @@ public class RoomVO {
 		}
 	}
 	
+	public boolean setStone(String user_id, int stone) {
+    	boolean result=false;
+    	
+    	if (stone==1 && black==null) {
+    		black = user_id;    		
+    		result=true;
+    	}
+    	else if(stone==2 && white==null) {
+    		white = user_id;
+    		result=true;
+    	}
+ 
+    	return result;
+	}
 	
 }

@@ -57,20 +57,32 @@ public class Websocket {
 			JSONObject jsonObject = (JSONObject) new JSONParser().parse(message);
 			
 			int type = Integer.parseInt(jsonObject.get("type").toString());
-			int roomNum = Integer.parseInt(jsonObject.get("roomNum").toString());
+			int roomNum = Integer.parseInt(roomId);
 			RoomVO vo = (RoomVO) roomList.get(roomNum);
 			
 			// 타입별 메시지 처리
 			if(type == 1) {
 				String user_id = jsonObject.get("id").toString();
+				int stone = Integer.parseInt(jsonObject.get("stone").toString());
 				//객체에서 꺼내오는걸로 바꾸기
 				//takeGame(user_id);
+				if(vo.setStone(user_id, stone)) {
+					JSONObject obj = new JSONObject();
+					obj.put("type", 1);
+					obj.put("black", vo.getBlack());
+					obj.put("white", vo.getWhite());
+					obj.put("turn", vo.getTurn_count());
+					
+					vo.getUserList().forEach(session -> {
+	        			  try {
+	        				  session.getBasicRemote().sendText(obj.toJSONString());
+	        			  }catch(Exception e) {
+	        				  e.printStackTrace();
+	        			  }
+	        		  });
+				}
 				
-				JSONObject obj = new JSONObject();
-				obj.put("type", 1);
-				obj.put("black", vo.getBlack());
-				obj.put("white", vo.getWhite());
-				obj.put("board", vo.getBoard());
+				
 				
 				
 			} else if(type == 2) { // 돌
@@ -99,23 +111,6 @@ public class Websocket {
     	System.out.println("client is now disconnected...");
     }
     
-    //준비되면 돌 선택하는 메소드
-    public boolean takeGame(int roomId, String user_id, int stone) {
-  	
-    	RoomVO vo = (RoomVO) roomList.get(roomId);
-    	boolean result=false;
-    	
-    	if (stone==1 && vo.getBlack()==null) {
-    		vo.setBlack(user_id);    		
-    		result=true;
-    	}
-    	else if(stone==2 && vo.getWhite()==null) {
-    		vo.setWhite(user_id);
-    		result=true;
-    	}
- 
-    	return result;
-    }
     
     public int isReady(int roomId) {
     	
