@@ -1,8 +1,11 @@
 package omok;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.websocket.Session;
+
 import lombok.Data;
+
 @Data
 public class RoomVO {
 	

@@ -1,5 +1,5 @@
 var roomId = new URL(window.location.href).searchParams.get("roomId");
-const webSocket = new WebSocket("ws://localhost:90/omok/websocket/" + roomId);
+const webSocket = new WebSocket("ws://localhost:8080/omok/websocket/" + roomId);
 
 const user_id=document.getElementById("user");
 const messageTextArea = document.getElementById("messageTextArea");
