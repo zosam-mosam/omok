@@ -22,11 +22,13 @@ webSocket.onerror = function(message) {
 };
    
 webSocket.onmessage = function(message) {
-    console.log("a");
-    console.log(message.data);
     
     let received = JSON.parse(message.data);
-	if(received.type == 1) selectedStone(received);
+    if(received.type == 0){
+		selectedStone(received);
+		console.log(received.board);
+	}
+	else if(received.type == 1) selectedStone(received);
     
 };
 

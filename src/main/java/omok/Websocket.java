@@ -48,7 +48,7 @@ public class Websocket {
     @SuppressWarnings("unchecked")
 	@OnMessage
     public void handleMessage(String message, Session userSession, @PathParam("roomId") String roomId) throws IOException {
-    		System.out.println(message);
+    		System.out.println("M: "+message);
     		try {
 			
 			//server to client
@@ -61,7 +61,18 @@ public class Websocket {
 			RoomVO vo = (RoomVO) roomList.get(roomNum);
 			
 			// 타입별 메시지 처리
-			if(type == 1) {
+			if(type ==0) {
+				
+				JSONObject obj = new JSONObject();
+				obj.put("type", 0);
+				obj.put("black", vo.getBlack());
+				obj.put("white", vo.getWhite());
+				obj.put("turn", vo.getTurn_count());
+				for(int i=0; i<vo.getBoard().length; i++) obj.put("board"+i, vo.getBoard()[i]);
+				System.out.println(obj.toJSONString());
+				userSession.getBasicRemote().sendText(obj.toJSONString());
+				
+			}else if(type == 1) {
 				String user_id = jsonObject.get("id").toString();
 				int stone = Integer.parseInt(jsonObject.get("stone").toString());
 				
