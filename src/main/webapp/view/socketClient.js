@@ -1,4 +1,5 @@
-const webSocket = new WebSocket("ws://localhost:90/omok/websocket4/0"); //나중에 바꾸기 // 192.168.0.127
+var roomId = new URL(window.location.href).searchParams.get("roomId");
+const webSocket = new WebSocket("ws://localhost:8090/omok/websocket/" + roomId);
 
 const user_id=document.getElementById("user");
 const messageTextArea = document.getElementById("messageTextArea");
@@ -6,8 +7,12 @@ const messageTextArea = document.getElementById("messageTextArea");
 let start=0;
 
 webSocket.onopen = function(message) {
+	let hello = {};
+	hello.type = 3;
+	hello.msg = "";
+	hello.id = user_id.value;
 	
-    messageTextArea.value += "Server connect...\n";
+	sendMessage(JSON.stringify(hello));
   };
   
 webSocket.onclose = function(message) {
@@ -22,10 +27,19 @@ webSocket.onerror = function(message) {
    
 webSocket.onmessage = function(message) {
       
-    messageTextArea.value += message.data + "\n";
-    
     let received = JSON.parse(message.data);
 	if(received.type == 1) selectedStone(received);
+	if(received.type == 2) console.log("type 2 msg received");
+	if(received.type == 3) {
+		if(received.msg === "")
+			messageTextArea.value += received.id + "님이 입장하셨습니다." + '\n';
+		else {
+			messageTextArea.value += received.id;
+			messageTextArea.value += " : ";
+			messageTextArea.value += received.msg + "\n";
+		}
+	}
+	
     
 };
 
@@ -38,6 +52,16 @@ webSocket.onmessage = function(message) {
 }
 
 */
+function sendChatMessage () {
+	let message = {};
+	message.type = 3;
+	message.msg = messageBox.value;
+	message.id = user_id.value;
+	if(message.msg != "")
+		sendMessage(JSON.stringify(message));
+	
+	messageBox.value = "";
+}
 
 function sendMessage(message) {
     webSocket.send(message);

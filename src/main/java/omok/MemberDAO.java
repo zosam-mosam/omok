@@ -30,7 +30,7 @@ public class MemberDAO {
 	}
 	public MemberVO memberCheck(String id,String pwd) throws Exception {
 		con = dataFactory.getConnection();
-		String query = "SELECT * FROM o_member WHERE id=? AND pwd=?";
+		String query = "SELECT * FROM t_member WHERE id=? AND pwd=?";
 		pstmt = con.prepareStatement(query);
 		pstmt.setString(1, id);
 		pstmt.setString(2, pwd);
@@ -47,7 +47,7 @@ public class MemberDAO {
 	}
 	public boolean memberCheck(String id) throws Exception {
 		con = dataFactory.getConnection();
-		String query = "SELECT * FROM o_member WHERE id=?";
+		String query = "SELECT * FROM t_member WHERE id=?";
 		pstmt = con.prepareStatement(query);
 		pstmt.setString(1, id);
 		rs = pstmt.executeQuery();
@@ -68,7 +68,7 @@ public class MemberDAO {
 	}
 	public List<MemberVO> memberList() throws Exception {
 		con = dataFactory.getConnection();
-		String query = "SELECT * FROM o_member";
+		String query = "SELECT * FROM t_member";
 		pstmt = con.prepareStatement(query);
 		rs = pstmt.executeQuery();
 		System.out.println(query);
@@ -84,7 +84,7 @@ public class MemberDAO {
 	}
 	public void memberJoin(String id, String pwd, String nickname) throws Exception {
 		con = dataFactory.getConnection();
-		String query = "INSERT INTO o_member VALUES(?,?,?)";
+		String query = "INSERT INTO t_member VALUES(?,?,?)";
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, id);

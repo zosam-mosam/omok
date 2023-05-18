@@ -4,6 +4,7 @@ const ctx = board.getContext("2d");
 let width = board.clientWidth;
 let height = board.clientHeight;
 let turn = 1; // 1 흑 2 백
+let turnCount = 1; // 박소영 test 용 
 
 const out = -1;
 const size = 19;
@@ -160,13 +161,16 @@ function isClicked(xPos, yPos) {
     //checkOmok(turn, resultPos.x, resultPos.y);
     
     turn = 3 - turn; //차례 변경
+    isClickedafter(); // 박소영 test용
   }
-	let message = {};
-	message.xPos = resultPos.x;
-	message.yPos = resultPos.y;
-	message.type = 2;
-	message.turn = turn;
-	sendMessage(JSON.stringify(message));
-  
 }
 
+// isClicked 하고 socket으로 보내기 박소영 test용
+function isClickedafter() {
+	let message = {};
+	message.type = 2;
+	message.posX = resultPos.x;
+	message.posY = resultPos.y;
+	message.turnCount = turnCount;
+	sendMessage(JSON.stringify(message));
+}
