@@ -17,7 +17,8 @@
     <div class="wrapper">
         <div class="header"></div>
         <div class="wrap">
-        <input type="hidden" value="${loginInfo.id}" id="user">
+        	<!-- 닉네임으로 바꾸기 -->
+        	<input type="hidden" value="${ loginInfo.id }" id="user">
 	        <div class="left">
 	        	<div class="area_btn">
 		        	<div class="area_btn1">
@@ -58,7 +59,7 @@
 	     </div>
     </div>
 </body>
-<script type="text/javascript" src="socketClient.js"></script>
 <script type="text/javascript" src="board.js"></script>
+<script type="text/javascript" src="socketClient.js"></script>
 <script type="text/javascript" src="main.js"></script>
 </html>

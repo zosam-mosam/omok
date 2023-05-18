@@ -1,8 +1,12 @@
 package omok;
 import java.io.IOException;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.websocket.OnClose;
@@ -48,7 +52,7 @@ public class Websocket {
     @SuppressWarnings("unchecked")
 	@OnMessage
     public void handleMessage(String message, Session userSession, @PathParam("roomId") String roomId) throws IOException {
-    		System.out.println(message);
+    		System.out.println("M: "+message);
     		try {
 			
 			//server to client
@@ -56,24 +60,43 @@ public class Websocket {
 			//client to server
 			JSONObject jsonObject = (JSONObject) new JSONParser().parse(message);
 			
-			int type = Integer.parseInt(jsonObject.get("type").toString());
-			
-			RoomVO vo = (RoomVO) roomList.get(Integer.parseInt(roomId));
+			int type = Integer.parseInt(jsonObject.get("type").toString());			
+			RoomVO vo = (RoomVO) roomList.get(Integer.parseInt(roomId));		
 			
 			OmokCheck omok = new OmokCheck(vo.getBoard());
+
 			
 			// 타입별 메시지 처리
-			if(type == 1) {
+			if(type ==0) {
+				
+				JSONObject obj = new JSONObject();
+				obj.put("type", 0);
+				obj.put("black", vo.getBlack());
+				obj.put("white", vo.getWhite());
+				obj.put("turn", vo.getTurnCount()); 
+				obj.put("board", Arrays.deepToString(omok.getBoard()));
+				//전송
+				userSession.getBasicRemote().sendText(obj.toJSONString());
+				
+			}else if(type == 1) {
 				String user_id = jsonObject.get("id").toString();
-				//객체에서 꺼내오는걸로 바꾸기
-				//takeGame(user_id);
+				int stone = Integer.parseInt(jsonObject.get("stone").toString());
+				
+				vo.setStone(user_id, stone);
 				
 				JSONObject obj = new JSONObject();
 				obj.put("type", 1);
 				obj.put("black", vo.getBlack());
 				obj.put("white", vo.getWhite());
-				obj.put("board", vo.getBoard());
-				
+				obj.put("turn", vo.getTurnCount());
+					
+				vo.getUserList().forEach(session -> {
+					try {
+	        			session.getBasicRemote().sendText(obj.toJSONString());
+	        		}catch(Exception e) {
+	        			e.printStackTrace();
+	        		}
+	        	});
 				
 			} else if(type == 2) { // 돌
 				int posX = Integer.parseInt(jsonObject.get("posX").toString());
@@ -142,23 +165,6 @@ public class Websocket {
 	    	System.out.println("client is now disconnected...");
     }
     
-    //준비되면 돌 선택하는 메소드
-    public boolean takeGame(int roomId, String user_id, int stone) {
-  	
-    	RoomVO vo = (RoomVO) roomList.get(roomId);
-    	boolean result=false;
-    	
-    	if (stone==1 && vo.getBlack()==null) {
-    		vo.setBlack(user_id);    		
-    		result=true;
-    	}
-    	else if(stone==2 && vo.getWhite()==null) {
-    		vo.setWhite(user_id);
-    		result=true;
-    	}
- 
-    	return result;
-    }
     
     public int isReady(int roomId) {
     	

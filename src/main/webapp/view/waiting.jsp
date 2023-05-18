@@ -27,7 +27,6 @@
 				a[i] = ss.get(i).getPlayerCount();
 				sum += a[i];
 				pageContext.setAttribute("a",a);
-
 			}
 		}
 		if (vo == null) {
@@ -48,7 +47,7 @@
     				location.href="/omok/view/play.jsp?roomId="+roomNo;
     			}
     			else{
-    				alert(num);
+    				alert("나가");
     			}
     		}
     </script>	

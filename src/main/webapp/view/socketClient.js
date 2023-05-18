@@ -1,10 +1,10 @@
 var roomId = new URL(window.location.href).searchParams.get("roomId");
-const webSocket = new WebSocket("ws://localhost:8090/omok/websocket/" + roomId);
+const webSocket = new WebSocket("ws://localhost:90/omok/websocket/" + roomId);
+
 
 const user_id=document.getElementById("user");
 const messageTextArea = document.getElementById("messageTextArea");
-
-let start=0;
+console.log(user_id);
 
 webSocket.onopen = function(message) {
 	let hello = {};
@@ -26,12 +26,15 @@ webSocket.onerror = function(message) {
 };
    
 webSocket.onmessage = function(message) {
-      
+    
     let received = JSON.parse(message.data);
-	if(received.type == 1) selectedStone(received);
-	if(received.type == 2) putStone(received); // 소영 test
-
-	if(received.type == 3) {
+    if(received.type == 0){
+		selectedStone(received);
+		setBoard(received.board);
+	}
+	else if(received.type == 1) selectedStone(received);
+	else if(received.type == 2) putStone(received); // 소영 test
+	else if(received.type == 3) {
 		if(received.msg === "")
 			messageTextArea.value += received.id + "님이 입장하셨습니다." + '\n';
 		else {
@@ -40,8 +43,6 @@ webSocket.onmessage = function(message) {
 			messageTextArea.value += received.msg + "\n";
 		}
 	}
-	
-    
 };
 
 /** 
@@ -65,6 +66,7 @@ function sendChatMessage () {
 }
 
 function sendMessage(message) {
+
     webSocket.send(message);
   }
   /*
@@ -82,9 +84,8 @@ $('#btn_ready').addEventListener(
 */
 
 function btn_ready(stone){
-
+	
 	let message = {};
-	message.room=0;
 	message.id = user_id.value;
 	message.type = 1;
 	message.stone = stone;
@@ -94,12 +95,34 @@ function btn_ready(stone){
 
 //선택된 돌 disabled
 function selectedStone(message){
-	//console.log(message);
-	const ready_btn=document.getElementById("r-btn"+message.stone);
-	ready_btn.innerText = message.settedUser+" "+ready_btn.innerText;
-	ready_btn.disabled=true;
+	console.log(message);
+	const black_btn=document.getElementById("r-btn1");
+	const white_btn=document.getElementById("r-btn2");
+
+	if(message.black===user_id.value || message.white===user_id.value){
+		black_btn.disabled = true;
+		white_btn.disabled = true;
+		//내 돌 찾기.
+		//console.log(message.black);
+		//console.log(user_id.value);
+		//console.log(message.black===user_id.value);
+		mine = (message.black===user_id.value)? 1:2;
+	}
+	if(message.black!=null) {
+		black_btn.innerText =  message.black+" ready";
+		black_btn.disabled = true;
+	}
+	if (message.white!=null) {
+		white_btn.innerText =  message.white+" ready";
+		white_btn.disabled = true;
+	}
 	
-	if(message.ready != 0) addEvent();
+	if(message.black!=null && message.white!=null){
+		//게임시작
+		console.log("시작");
+		addEvent();
+	}
+
 }
 //박소영 test
 function putStone(message){
@@ -109,7 +132,7 @@ function putStone(message){
 }
 
 function addEvent(){
-	
+	console.log("이벤트");
 	board.addEventListener(
 	  "mousemove",
 	  function (evt) {

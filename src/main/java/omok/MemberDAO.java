@@ -36,7 +36,7 @@ public class MemberDAO {
 		pstmt.setString(1, id);
 		pstmt.setString(2, pwd);
 		rs = pstmt.executeQuery();
-		System.out.println(query);
+		//System.out.println(query);
 		MemberVO vo = null;
 		if (rs.next()) {
 			vo = new MemberVO();
@@ -72,7 +72,7 @@ public class MemberDAO {
 		String query = "SELECT * FROM t_member";
 		pstmt = con.prepareStatement(query);
 		rs = pstmt.executeQuery();
-		System.out.println(query);
+		//System.out.println(query);
 		List<MemberVO> voList = null;
 		if (rs.next()) {
 			MemberVO vo = new MemberVO();

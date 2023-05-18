@@ -3,8 +3,11 @@ const ctx = board.getContext("2d");
 
 let width = board.clientWidth;
 let height = board.clientHeight;
-let turn = 1; // 1 흑 2 백
+
+let mine = 0;
+
 let turnCount = 1;
+
 
 const out = -1;
 const size = 19;
@@ -28,6 +31,12 @@ for (var i = 0; i < size; i++) {
     boardArray[i][j] = 0;
   }
 }
+//게임 시작시 보드판 초기화
+function setBoard(board){
+	boardArray = board;
+	updateBoard();
+}
+
 
 //돌 그리는 함수
 function drawStone(color, posX, posY, radius) {
@@ -132,13 +141,9 @@ function drawNotClicked(xPos, yPos) {
     updateBoard();
     ctx.beginPath();
     ctx.globalAlpha = 0.8;
-    if (turn < 2) {
-      now = blackColor;
-    } else {
-      now = whiteColor;
-    }
+
     drawStone(
-      now,
+      mine,
       blank + resultPos.x * interval,
       blank + resultPos.y * interval,
       radius
@@ -157,10 +162,9 @@ function isClicked(xPos, yPos) {
     resultPos.y < size &&
     boardArray[resultPos.x][resultPos.y] == 0
   ) {
-    boardArray[resultPos.x][resultPos.y] = turn;
-    //checkOmok(turn, resultPos.x, resultPos.y);
+	console.log(mine);
+    boardArray[resultPos.x][resultPos.y] = mine;
     
-    turn = 3 - turn; //차례 변경
     isClickedafter(); // 박소영 test용
   }
 }
