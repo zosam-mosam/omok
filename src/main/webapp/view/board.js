@@ -4,7 +4,7 @@ const ctx = board.getContext("2d");
 let width = board.clientWidth;
 let height = board.clientHeight;
 let turn = 1; // 1 흑 2 백
-let turnCount = 1; // 박소영 test 용 
+let turnCount = 1;
 
 const out = -1;
 const size = 19;
@@ -162,6 +162,22 @@ function isClicked(xPos, yPos) {
     
     turn = 3 - turn; //차례 변경
     isClickedafter(); // 박소영 test용
+  }
+}
+//돌 놓기 박소영 test
+function isClickedd(xPos, yPos) {
+  resultPos = getMouseRoundPos(xPos, yPos);
+  if (
+    resultPos.x > out &&
+    resultPos.x < size &&
+    resultPos.y > out &&
+    resultPos.y < size &&
+    boardArray[resultPos.x][resultPos.y] == 0
+  ) {
+    boardArray[resultPos.x][resultPos.y] = turn;
+    //checkOmok(turn, resultPos.x, resultPos.y);
+    
+    turn = 3 - turn; //차례 변경
   }
 }
 

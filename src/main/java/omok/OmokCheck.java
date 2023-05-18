@@ -1,8 +1,17 @@
 package omok;
 
+import lombok.Data;
+
+@Data
 public class OmokCheck {
 	
 	int[][] board;
+	private int finish;
+	
+	OmokCheck(int[][] board) {
+		this.board = board;
+		this.finish = 0;
+	}
 	
 	public int isFinish(int x, int y, int stone) {
 		if (isRowOmok(x, y, board, stone) ||
@@ -10,10 +19,10 @@ public class OmokCheck {
 				isRightUpOmok(x, y, board, stone) ||
 				isLeftUpOmok(x, y, board, stone)) 
 			{
-				return 1;
+				return 1; // 게임끝
 			}
 		else {
-			return 0;
+			return 0; // 게임 그대로 진행
 		}
 	}
 
