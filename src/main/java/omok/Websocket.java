@@ -1,7 +1,9 @@
 package omok;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.websocket.OnClose;
@@ -67,9 +69,18 @@ public class Websocket {
 				obj.put("type", 0);
 				obj.put("black", vo.getBlack());
 				obj.put("white", vo.getWhite());
-				obj.put("turn", vo.getTurn_count());
-				for(int i=0; i<vo.getBoard().length; i++) obj.put("board"+i, vo.getBoard()[i]);
-				System.out.println(obj.toJSONString());
+				obj.put("turn", vo.getTurn_count()); 
+				//보드객체
+				Map<Integer, List<Integer>> boardMap = new HashMap<>();
+				int[][] board = vo.getBoard();
+				for(int i=0; i<vo.getBoard_size(); i++) {
+					List<Integer> list = new ArrayList<>(vo.getBoard_size());
+					for(int num: board[i]) list.add(num);
+					
+					boardMap.put(i, list);
+				}
+				obj.put("board", boardMap);
+				//전송
 				userSession.getBasicRemote().sendText(obj.toJSONString());
 				
 			}else if(type == 1) {

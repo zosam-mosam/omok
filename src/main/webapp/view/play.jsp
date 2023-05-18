@@ -58,7 +58,7 @@
 	     </div>
     </div>
 </body>
-<script type="text/javascript" src="socketClient.js"></script>
 <script type="text/javascript" src="board.js"></script>
+<script type="text/javascript" src="socketClient.js"></script>
 <script type="text/javascript" src="main.js"></script>
 </html>

@@ -13,8 +13,9 @@ public class RoomVO {
 	private List<Session> userList;
 	private int playerCount;
 	
+	private int board_size=19;
     // 고유 값
-    private int[][] board = new int[20][20];
+    private int[][] board = new int[board_size][board_size];
     //돌 선택
     private String black;
     private String white;

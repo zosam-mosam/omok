@@ -170,3 +170,7 @@ function isClicked(xPos, yPos) {
   
 }
 
+function setBoard(board){
+	boardArray = board;
+}
+
