@@ -59,7 +59,7 @@ function whoseTurn(turnCount){
   turn = (turnCount%2==1)? 1: 2;
   //내차례면 돌 놓을 수 있음
   if(turn==mine){
-    board.removeEventListener("mousedown", function(event){
+    board.addEventListener("mousedown", function(event){
       mouseDown(event, turnCount);
     });
   }else{ // 아니면 못 놓음
