@@ -5,6 +5,9 @@ let mine=-1; //흑:1, 백:2
 let myColor="#b8b8b8"; //"#....."
 let myBtn=null; //black_btn 또는 white_btn
 
+let black_id;
+let white_id;
+
 function amIuser(sBlack, sWhite){
   if (sBlack === user_id.value || sWhite=== user_id.value) return true;
   else return false;
@@ -27,11 +30,13 @@ function setReadyButton(sBlack, sWhite){
   if (sBlack != null) {
     black_btn.innerText = sBlack + " ready";
     black_btn.disabled = true;
+    black_id=sBlack;
   }
   //백이 준비가 된 경우 disabled
   if (sWhite != null) {
     white_btn.innerText = sWhite + " ready";
     white_btn.disabled = true;
+    white_id=sWhite;
   }
 }
 
@@ -46,11 +51,18 @@ function setMyStone(message){
 function start(turnCount){
   console.log("게임시작~");
   console.log("start "+turnCount);
+  //버튼에 'ready' 삭제
+  deleteReady();
   //시작하면 mousemove 이벤트 추가
   board.addEventListener("mousemove", mouseMove);
   //누구차례?
   whoseTurn(turnCount);
 
+}
+
+function deleteReady(){
+  black_btn.innerText = black_id;
+  white_btn.innerText = white_id;
 }
 
 function whoseTurn(){
