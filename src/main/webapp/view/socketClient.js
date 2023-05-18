@@ -1,5 +1,5 @@
 var roomId = new URL(window.location.href).searchParams.get("roomId");
-const webSocket = new WebSocket("ws://localhost:90/omok/websocket/" + roomId);
+const webSocket = new WebSocket("ws://localhost:8080/omok/websocket/" + roomId);
 
 const user_id = document.getElementById("user");
 const messageTextArea = document.getElementById("messageTextArea");
@@ -19,11 +19,16 @@ webSocket.onerror = function (message) {
 
 webSocket.onmessage = function (message) {
   let received = JSON.parse(message.data);
-  console.log(received);
+  console.log("받았다  : "+received.turnCount);
   if (received.type == 0) {
-    selectedStone(received);
+    selectStone(received);
     setBoard(received.board);
-  } else if (received.type == 1) selectedStone(received);
+    //내가 유저면 게임을 이어갈 수 있도록?
+  } else if (received.type == 1) {
+	  selectStone(received);
+    console.log("onM "+received.turnCount);
+	  if(received.turnCount>=1 && amIuser(received.black, received.white)) start(received.turnCount);
+  }
   else if (received.type == 2) putStone(received); // 소영 test
   else if (received.type == 3) {
     if (received.msg === "")

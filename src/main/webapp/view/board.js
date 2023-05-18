@@ -10,6 +10,8 @@ const blank = width / 50;
 const interval = (width - 2 * blank) / (size - 1);
 const radius = interval / 2 - 2;
 
+let turnCount;
+
 const line = "#fff";
 const blackColor = "#E06D7A";
 const whiteColor = "#5EB89F";
@@ -137,7 +139,7 @@ function drawNotClicked(xPos, yPos) {
     ctx.beginPath();
     ctx.globalAlpha = 0.8;
     drawStone(
-      stone,
+      myColor,
       blank + resultPos.x * interval,
       blank + resultPos.y * interval,
       radius
@@ -147,7 +149,7 @@ function drawNotClicked(xPos, yPos) {
 }
 
 //돌 놓기
-function isClicked(xPos, yPos) {
+function isClicked(xPos, yPos, turnCount) {
   resultPos = getMouseRoundPos(xPos, yPos);
   if (
     resultPos.x > out &&
@@ -157,7 +159,19 @@ function isClicked(xPos, yPos) {
     boardArray[resultPos.x][resultPos.y] == 0
   ) {
     boardArray[resultPos.x][resultPos.y] = mine;
-
-    //isClickedafter(); // 박소영 test용
+    //console.log(boardArray[resultPos.x][resultPos.y]);
+    isClickedafter(turnCount);
   }
+}
+
+// isClicked 하고 socket으로 보내기 박소영 test용
+function isClickedafter(turnCount) {
+  //console.log("function");
+	let message = {};
+	message.type = 2;
+	message.posX = resultPos.x;
+	message.posY = resultPos.y;
+	message.turnCount = turnCount;
+	sendMessage(JSON.stringify(message));
+  console.log("보냈다   : "+message.turnCount);
 }
