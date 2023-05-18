@@ -29,7 +29,7 @@ public class RoomVO {
 	RoomVO() {
 		this.userList = new ArrayList<Session>();
 		this.playerCount = 0;
-		this.turnCount = 1;
+		this.turnCount = 0;
 	}
 	
 	// userList에 소켓 세션(플레이어) 추가
@@ -59,6 +59,9 @@ public class RoomVO {
     	else if(stone==2 && white==null) {
     		white = user_id;
     		result=true;
+    	}
+    	if ( black!=null && white!=null) {
+    		turnCount += 1;
     	}
  
     	return result;
