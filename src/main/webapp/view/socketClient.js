@@ -1,5 +1,5 @@
 var roomId = new URL(window.location.href).searchParams.get("roomId");
-const webSocket = new WebSocket("ws://localhost:90/omok/websocket/" + roomId);
+const webSocket = new WebSocket("ws://localhost:8090/omok/websocket/" + roomId);
 
 
 const user_id=document.getElementById("user");
@@ -28,6 +28,7 @@ webSocket.onerror = function(message) {
 webSocket.onmessage = function(message) {
     
     let received = JSON.parse(message.data);
+    console.log(received)
     if(received.type == 0){
 		selectedStone(received);
 		setBoard(received.board);
@@ -103,10 +104,14 @@ function selectedStone(message){
 		black_btn.disabled = true;
 		white_btn.disabled = true;
 		//내 돌 찾기.
-		//console.log(message.black);
-		//console.log(user_id.value);
-		//console.log(message.black===user_id.value);
+		console.log(message.black);
+		console.log(user_id.value);
+		console.log(message.black===user_id.value);
 		mine = (message.black===user_id.value)? 1:2;
+		console.log(mine);
+		stone = (mine===1)? blackColor: whiteColor;
+
+		if(message.black!=null && message.white!=null) addEvent();
 	}
 	if(message.black!=null) {
 		black_btn.innerText =  message.black+" ready";
@@ -120,7 +125,6 @@ function selectedStone(message){
 	if(message.black!=null && message.white!=null){
 		//게임시작
 		console.log("시작");
-		addEvent();
 	}
 
 }

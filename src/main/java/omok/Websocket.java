@@ -79,6 +79,7 @@ public class Websocket {
 				userSession.getBasicRemote().sendText(obj.toJSONString());
 				
 			}else if(type == 1) {
+				
 				String user_id = jsonObject.get("id").toString();
 				int stone = Integer.parseInt(jsonObject.get("stone").toString());
 				
@@ -99,6 +100,7 @@ public class Websocket {
 	        	});
 				
 			} else if(type == 2) { // 돌
+				
 				int posX = Integer.parseInt(jsonObject.get("posX").toString());
 				int posY = Integer.parseInt(jsonObject.get("posY").toString());
 				int turnCount = Integer.parseInt(jsonObject.get("turnCount").toString());
@@ -106,6 +108,7 @@ public class Websocket {
 				// 맞는 턴일때만 실행됨
 				if(turnCount  == vo.getTurnCount())
 				{
+					
 					// 보드에 좌표 셋
 					roomList.get(Integer.parseInt(roomId)).putStone(posX, posY, turnCount % 2 == 1 ? 1 : 2);
 					
@@ -156,12 +159,14 @@ public class Websocket {
       }
     }
     @OnClose	
-    public void handleClose(Session userSession, @PathParam("roomId") String roomId) {
-    	
-	    	roomList.get(Integer.parseInt(roomId));
-	    	//room에서 black? white? 관전자?
-	    	// 그 session을 remove 해야됨
-	    	roomList.get(Integer.parseInt(roomId)).removeLs(userSession);
+    public void handleClose(Session userSession, @PathParam("roomId") String roomId, @PathParam("user_id") String user_id) {
+    		
+    		// 소켓 연결 종료 시 흑, 백에 userID저장되어있으면 제거
+    		//RoomVO rvo = roomList.get(Integer.parseInt(roomId));
+//    		if(rvo.getBlack().equals(user_id)) rvo.setBlack("");
+//    		else if(rvo.getBlack().equals(user_id)) rvo.setWhite("");
+    		
+    		roomList.get(Integer.parseInt(roomId)).removeLs(userSession);
 	    	System.out.println("client is now disconnected...");
     }
     

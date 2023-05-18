@@ -33,13 +33,14 @@ for (var i = 0; i < size; i++) {
 }
 //게임 시작시 보드판 초기화
 function setBoard(board){
-	boardArray = board;
+	boardArray = JSON.parse(board);
 	updateBoard();
 }
 
 
 //돌 그리는 함수
 function drawStone(color, posX, posY, radius) {
+	//console.log(posX,posY)
   ctx.beginPath();
   ctx.strokeStyle = color;
   ctx.fillStyle = color;
@@ -100,7 +101,7 @@ function updateBoard() {
           blank + i * interval,
           blank + j * interval,
           radius
-        );
+        );//color, posX, posY, radius
       }
     }
   }
@@ -130,7 +131,9 @@ function getMouseRoundPos(xPos, yPos) {
 //돌이 놓이지 않은 곳이면 놓을수 있다는 표시를 해줌
 function drawNotClicked(xPos, yPos) {
   resultPos = getMouseRoundPos(xPos, yPos);
-
+  console.log(resultPos.x,resultPos.y);
+  console.log(boardArray);
+console.log(out, size, boardArray[resultPos.x*1][resultPos.y*1]);
   if (
     resultPos.x > out &&
     resultPos.x < size &&
@@ -138,12 +141,13 @@ function drawNotClicked(xPos, yPos) {
     resultPos.y < size &&
     boardArray[resultPos.x][resultPos.y] == 0
   ) {
+	console.log(1);
     updateBoard();
     ctx.beginPath();
     ctx.globalAlpha = 0.8;
 
     drawStone(
-      mine,
+      blackColor,
       blank + resultPos.x * interval,
       blank + resultPos.y * interval,
       radius
@@ -162,7 +166,6 @@ function isClicked(xPos, yPos) {
     resultPos.y < size &&
     boardArray[resultPos.x][resultPos.y] == 0
   ) {
-	console.log(mine);
     boardArray[resultPos.x][resultPos.y] = mine;
     
     isClickedafter(); // 박소영 test용

@@ -24,7 +24,7 @@ public class RoomVO {
     private String black;
     private String white;
     private int finish;		// 게임 종료여부 끝 : 1
-    private int turnCount;	// 현재 턴 수
+    private int turnCount=0;	// 현재 턴 수
     
 	RoomVO() {
 		this.userList = new ArrayList<Session>();
@@ -65,7 +65,7 @@ public class RoomVO {
 	}
 	
 	public void putStone(int x, int y, int stone) {
-		board[y][x] = stone;
+		board[x][y] = stone;
 	}
 	
 	public void sendObjectBroad(Session userSession, JSONObject obj) throws IOException {
