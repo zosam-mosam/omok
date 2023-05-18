@@ -17,6 +17,7 @@
     <div class="wrapper">
         <div class="header"></div>
         <div class="wrap">
+        	<!-- 닉네임으로 바꾸기 -->
         	<input type="hidden" value="${ loginInfo.id }" id="user">
 	        <div class="left">
 	        	<div class="area_btn">
