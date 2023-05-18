@@ -3,7 +3,13 @@ const ctx = board.getContext("2d");
 
 let width = board.clientWidth;
 let height = board.clientHeight;
-let turn = 1; // 1 흑 2 백
+
+let mine = 0;
+
+let turnCount = 1;
+
+let put = 0; //put 0 일 때만 put
+
 
 const out = -1;
 const size = 19;
@@ -27,9 +33,16 @@ for (var i = 0; i < size; i++) {
     boardArray[i][j] = 0;
   }
 }
+//게임 시작시 보드판 초기화
+function setBoard(board){
+	boardArray = JSON.parse(board);
+	updateBoard();
+}
+
 
 //돌 그리는 함수
 function drawStone(color, posX, posY, radius) {
+	//console.log(posX,posY)
   ctx.beginPath();
   ctx.strokeStyle = color;
   ctx.fillStyle = color;
@@ -90,7 +103,7 @@ function updateBoard() {
           blank + i * interval,
           blank + j * interval,
           radius
-        );
+        );//color, posX, posY, radius
       }
     }
   }
@@ -128,16 +141,13 @@ function drawNotClicked(xPos, yPos) {
     resultPos.y < size &&
     boardArray[resultPos.x][resultPos.y] == 0
   ) {
+	console.log(1);
     updateBoard();
     ctx.beginPath();
     ctx.globalAlpha = 0.8;
-    if (turn < 2) {
-      now = blackColor;
-    } else {
-      now = whiteColor;
-    }
+
     drawStone(
-      now,
+      blackColor,
       blank + resultPos.x * interval,
       blank + resultPos.y * interval,
       radius
@@ -149,6 +159,7 @@ function drawNotClicked(xPos, yPos) {
 //돌 놓기
 function isClicked(xPos, yPos) {
   resultPos = getMouseRoundPos(xPos, yPos);
+
   if (
     resultPos.x > out &&
     resultPos.x < size &&
@@ -156,17 +167,19 @@ function isClicked(xPos, yPos) {
     resultPos.y < size &&
     boardArray[resultPos.x][resultPos.y] == 0
   ) {
-    boardArray[resultPos.x][resultPos.y] = turn;
-    //checkOmok(turn, resultPos.x, resultPos.y);
-    
-    turn = 3 - turn; //차례 변경
+    boardArray[resultPos.x][resultPos.y] = mine;
+
+    isClickedafter(); // 박소영 test용
+
   }
-	let message = {};
-	message.xPos = resultPos.x;
-	message.yPos = resultPos.y;
-	message.type = 2;
-	message.turn = turn;
-	sendMessage(JSON.stringify(message));
-  
 }
 
+// isClicked 하고 socket으로 보내기 박소영 test용
+function isClickedafter() {
+	let message = {};
+	message.type = 2;
+	message.posX = resultPos.x;
+	message.posY = resultPos.y;
+	message.turnCount = turnCount;
+	sendMessage(JSON.stringify(message));
+}
