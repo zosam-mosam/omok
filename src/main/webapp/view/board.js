@@ -3,7 +3,11 @@ const ctx = board.getContext("2d");
 
 let width = board.clientWidth;
 let height = board.clientHeight;
+
 let mine = 0;
+
+let turnCount = 1;
+
 
 const out = -1;
 const size = 19;
@@ -161,13 +165,32 @@ function isClicked(xPos, yPos) {
 	console.log(mine);
     boardArray[resultPos.x][resultPos.y] = mine;
     
+    isClickedafter(); // 박소영 test용
   }
-	let message = {};
-	message.xPos = resultPos.x;
-	message.yPos = resultPos.y;
-	message.type = 2;
-	message.turn = mine;
-	sendMessage(JSON.stringify(message));
-  
+}
+//돌 놓기 박소영 test
+function isClickedd(xPos, yPos) {
+  resultPos = getMouseRoundPos(xPos, yPos);
+  if (
+    resultPos.x > out &&
+    resultPos.x < size &&
+    resultPos.y > out &&
+    resultPos.y < size &&
+    boardArray[resultPos.x][resultPos.y] == 0
+  ) {
+    boardArray[resultPos.x][resultPos.y] = turn;
+    //checkOmok(turn, resultPos.x, resultPos.y);
+    
+    turn = 3 - turn; //차례 변경
+  }
 }
 
+// isClicked 하고 socket으로 보내기 박소영 test용
+function isClickedafter() {
+	let message = {};
+	message.type = 2;
+	message.posX = resultPos.x;
+	message.posY = resultPos.y;
+	message.turnCount = turnCount;
+	sendMessage(JSON.stringify(message));
+}

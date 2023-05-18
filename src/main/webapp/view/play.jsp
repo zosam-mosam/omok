@@ -47,10 +47,10 @@
                 <form>
                     <div class="nametext">
                         <input class="user" type="text" placeholder="name" size=5 value="" />
-                        <input class="textMessage" type="text" placeholder="input message"/>
+                        <input class="textMessage" id="messageBox" type="text" placeholder="input message"/>
                     </div>
                     <br/>
-                    <input class="send" onclick="sendMessage()" value="Send" type="button" />
+                    <input class="send" onclick="sendChatMessage()" value="Send" type="button" />
                     <input class="dis" onclick="disconnect()" value="Disconnect" type="button" />
                 </form>
             </div>
