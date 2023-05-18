@@ -53,19 +53,15 @@ function start(turnCount){
 
 }
 
-function whoseTurn(turnCount){
+function whoseTurn(){
   console.log("whose "+turnCount)
   //내차례?
   turn = (turnCount%2==1)? 1: 2;
   //내차례면 돌 놓을 수 있음
   if(turn==mine){
-    board.addEventListener("mousedown", function(event){
-      mouseDown(event, turnCount);
-    });
+    board.addEventListener("mousedown", mouseDown);
   }else{ // 아니면 못 놓음
-    board.removeEventListener("mousedown", function(event){
-      mouseDown(event, turnCount);
-    });
+    board.removeEventListener("mousedown", mouseDown);
   }
   setTurnButton(turn);
 }
@@ -92,20 +88,22 @@ const mouseMove = (e) => {
   var mousePos = getMousePos(board, e);
   drawNotClicked(mousePos.x, mousePos.y);
 };
-
-function mouseDown(event, turnCount){
+const mouseDown = (e) => {
   var mousePos = getMousePos(board, event);
   isClicked(mousePos.x, mousePos.y, turnCount);
 }
+
 // const mouseDown = (e) => {
 //   var mousePos = getMousePos(board, e);
 //   isClicked(mousePos.x, mousePos.y, turnCount);
 // };
 
 function putStone(message){
-  console.log(message.finish);
-  console.log("put "+message.turnCount);
-  setBoard(message.board);
-  whoseTurn(message.turnCount);
+	turnCount = message.turnCount;
+	setBoard(message.board);
+  whoseTurn();
+}
 
+function win(received){
+  
 }

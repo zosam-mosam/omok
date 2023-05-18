@@ -10,7 +10,7 @@ const blank = width / 50;
 const interval = (width - 2 * blank) / (size - 1);
 const radius = interval / 2 - 2;
 
-let turnCount;
+let turnCount=1;
 
 const line = "#fff";
 const blackColor = "#E06D7A";
@@ -124,9 +124,7 @@ function getMouseRoundPos(xPos, yPos) {
 //돌이 놓이지 않은 곳이면 놓을수 있다는 표시를 해줌
 function drawNotClicked(xPos, yPos) {
   resultPos = getMouseRoundPos(xPos, yPos);
-  //console.log(resultPos.x, resultPos.y);
-  //console.log(boardArray);
-  //console.log(out, size, boardArray[resultPos.x * 1][resultPos.y * 1]);
+
   if (
     resultPos.x > out &&
     resultPos.x < size &&
@@ -151,6 +149,7 @@ function drawNotClicked(xPos, yPos) {
 //돌 놓기
 function isClicked(xPos, yPos, turnCount) {
   resultPos = getMouseRoundPos(xPos, yPos);
+
   if (
     resultPos.x > out &&
     resultPos.x < size &&
@@ -159,13 +158,13 @@ function isClicked(xPos, yPos, turnCount) {
     boardArray[resultPos.x][resultPos.y] == 0
   ) {
     boardArray[resultPos.x][resultPos.y] = mine;
-    //console.log(boardArray[resultPos.x][resultPos.y]);
+
     isClickedafter(turnCount);
   }
 }
 
 // isClicked 하고 socket으로 보내기 박소영 test용
-function isClickedafter(turnCount) {
+function isClickedafter() {
   //console.log("function");
 	let message = {};
 	message.type = 2;
@@ -173,5 +172,7 @@ function isClickedafter(turnCount) {
 	message.posY = resultPos.y;
 	message.turnCount = turnCount;
 	sendMessage(JSON.stringify(message));
+
   console.log("보냈다   : "+message.turnCount);
+
 }

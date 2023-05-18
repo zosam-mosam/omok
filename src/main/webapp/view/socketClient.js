@@ -29,7 +29,10 @@ webSocket.onmessage = function (message) {
     console.log("onM "+received.turnCount);
 	  if(received.turnCount>=1 && amIuser(received.black, received.white)) start(received.turnCount);
   }
-  else if (received.type == 2) putStone(received); // 소영 test
+  else if (received.type == 2) {
+    putStone(received);
+    win(received);
+  }
   else if (received.type == 3) {
     if (received.msg === "")
       messageTextArea.value += received.id + "님이 입장하셨습니다." + "\n";

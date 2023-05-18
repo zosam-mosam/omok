@@ -12,6 +12,15 @@ public class OmokCheck {
 		this.board = board;
 		this.finish = 0;
 	}
+	public void resetBoard() {
+		for(int i = 0; i < 19; i++)
+		{
+			for(int j = 0; j < 19; j++)
+			{
+				board[i][j] = 0;
+			}
+		}
+	}
 	
 	public int isFinish(int x, int y, int stone) {
 		if (isRowOmok(x, y, board, stone) ||
