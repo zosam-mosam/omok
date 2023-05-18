@@ -1,5 +1,6 @@
 package omok;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,13 +52,15 @@ public class Websocket {
     		try {
 			
 			//server to client
-			
+    			
 			//client to server
 			JSONObject jsonObject = (JSONObject) new JSONParser().parse(message);
 			
 			int type = Integer.parseInt(jsonObject.get("type").toString());
 			
 			RoomVO vo = (RoomVO) roomList.get(Integer.parseInt(roomId));
+			
+			OmokCheck omok = new OmokCheck(vo.getBoard());
 			
 			// 타입별 메시지 처리
 			if(type == 1) {
@@ -76,38 +79,37 @@ public class Websocket {
 				int posX = Integer.parseInt(jsonObject.get("posX").toString());
 				int posY = Integer.parseInt(jsonObject.get("posY").toString());
 				int turnCount = Integer.parseInt(jsonObject.get("turnCount").toString());
-				
+
 				// 맞는 턴일때만 실행됨
 				if(turnCount  == vo.getTurnCount())
 				{
 					// 보드에 좌표 셋
-					roomList.get(Integer.parseInt(roomId)).setBoard(posX, posY, turnCount % 2);
+					roomList.get(Integer.parseInt(roomId)).putStone(posX, posY, turnCount % 2 == 1 ? 1 : 2);
 					
 					// 결과 값
-					int finish = vo.isFinish(posX, type, turnCount % 2 == 1 ? 1 : 2);
+					omok.setFinish(omok.isFinish(posX, posY, turnCount % 2 == 1 ? 1 : 2));
 					
 					// 서버->클라 - 계속 진행
-					if(finish == 0)
+					if(omok.getFinish() == 0)
 					{
-						System.out.println("finish:" + finish);
 						//다음턴 넘기기
-						vo.plusTurnCount();
+						vo.setTurnCount(vo.getTurnCount()+1);
 						JSONObject obj = new JSONObject();
 						obj.put("type", 2);
-						obj.put("finish", 2);
-						obj.put("board", roomList.get(Integer.parseInt(roomId)).getBoard());
+						obj.put("finish", omok.getFinish() );
+						obj.put("board", Arrays.deepToString(omok.getBoard()));
 						// 다음턴이라고 보내줌
 						obj.put("turnCount", vo.getTurnCount());
 						roomList.get(Integer.parseInt(roomId)).sendObject(userSession,obj);
 						
 					}
 					// 서버->클라 - 게임 종료
-					else if(finish == 1)
+					else if(omok.getFinish()  == 1)
 					{
 						JSONObject obj = new JSONObject();
 						obj.put("type", 2);
-						obj.put("finish", 2);
-						obj.put("board", roomList.get(Integer.parseInt(roomId)).getBoard());
+						obj.put("finish", omok.getFinish() );
+						obj.put("board", Arrays.deepToString(omok.getBoard()));
 						obj.put("id", turnCount % 2  == 1 ? vo.getBlack() : vo.getWhite());
 						roomList.get(Integer.parseInt(roomId)).sendObject(userSession,obj);
 					}
@@ -117,6 +119,14 @@ public class Websocket {
 				}
 			} else if (type == 3) { // 채팅
 				roomList.get(Integer.parseInt(roomId)).sendObject(userSession, jsonObject);
+			} else if (type == 4) { //기권
+				String user_id = jsonObject.get("id").toString();
+				JSONObject obj = new JSONObject();
+				obj.put("type", 4);
+				obj.put("finish", 1); // 기권하면...끝이닉가!!!!!!!
+				obj.put("id", user_id.equals(vo.getWhite()) ? vo.getBlack() : vo.getWhite());
+				obj.put("board", Arrays.deepToString(omok.getBoard()));
+				roomList.get(Integer.parseInt(roomId)).sendObject(userSession,obj);
 			}
       } catch (Exception e) {
           e.printStackTrace();

@@ -29,7 +29,8 @@ webSocket.onmessage = function(message) {
       
     let received = JSON.parse(message.data);
 	if(received.type == 1) selectedStone(received);
-	if(received.type == 2) console.log("type 2 msg received");
+	if(received.type == 2) putStone(received); // 소영 test
+
 	if(received.type == 3) {
 		if(received.msg === "")
 			messageTextArea.value += received.id + "님이 입장하셨습니다." + '\n';
@@ -99,6 +100,12 @@ function selectedStone(message){
 	ready_btn.disabled=true;
 	
 	if(message.ready != 0) addEvent();
+}
+//박소영 test
+function putStone(message){
+	console.log(message);
+	turnCount = message.turnCount;
+	isClickedd(message.xPos, message.yPos);
 }
 
 function addEvent(){

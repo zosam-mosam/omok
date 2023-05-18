@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +91,26 @@ public class MemberDAO {
 			pstmt.setString(1, id);
 			pstmt.setString(2, pwd);
 			pstmt.setString(3, nickname);
+			pstmt.executeUpdate(); // 추가 성공하면 1 반환
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	//박소영 추가
+	public void memberGameResult(String id, int result) throws SQLException {// result가 0이면 이김 1이면 짐 2면 무승부
+		con = dataFactory.getConnection();
+		String query = "UPDATE t_member SET ";
+		if(result == 0)
+			query += "win = win + 1\n";
+		else if (result == 1)
+			query += "lose = lose + 1\n";
+		else if (result == 2)
+			query += "draw = draw + 1\n";
+		query += "WHERE id = ?";
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, id);
 			pstmt.executeUpdate(); // 추가 성공하면 1 반환
 
 		} catch (Exception e) {

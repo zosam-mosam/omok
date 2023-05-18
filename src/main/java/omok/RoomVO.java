@@ -2,8 +2,6 @@ package omok;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import javax.websocket.Session;
 
 import org.json.simple.JSONObject;
@@ -45,7 +43,7 @@ public class RoomVO {
 	}
 	
 	public void putStone(int x, int y, int stone) {
-		board[x][y] = stone;
+		board[y][x] = stone;
 	}
 	
 	public void sendObjectBroad(Session userSession, JSONObject obj) throws IOException {
