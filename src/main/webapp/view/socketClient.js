@@ -132,7 +132,8 @@ function selectedStone(message){
 function putStone(message){
 	console.log(message);
 	turnCount = message.turnCount;
-	isClickedd(message.xPos, message.yPos);
+	isClicked(message.xPos, message.yPos);
+	updateBoard();
 }
 
 function addEvent(){

@@ -8,6 +8,8 @@ let mine = 0;
 
 let turnCount = 1;
 
+let put = 0; //put 0 일 때만 put
+
 
 const out = -1;
 const size = 19;
@@ -131,9 +133,7 @@ function getMouseRoundPos(xPos, yPos) {
 //돌이 놓이지 않은 곳이면 놓을수 있다는 표시를 해줌
 function drawNotClicked(xPos, yPos) {
   resultPos = getMouseRoundPos(xPos, yPos);
-  console.log(resultPos.x,resultPos.y);
-  console.log(boardArray);
-console.log(out, size, boardArray[resultPos.x*1][resultPos.y*1]);
+
   if (
     resultPos.x > out &&
     resultPos.x < size &&
@@ -159,6 +159,7 @@ console.log(out, size, boardArray[resultPos.x*1][resultPos.y*1]);
 //돌 놓기
 function isClicked(xPos, yPos) {
   resultPos = getMouseRoundPos(xPos, yPos);
+
   if (
     resultPos.x > out &&
     resultPos.x < size &&
@@ -168,23 +169,17 @@ function isClicked(xPos, yPos) {
   ) {
     boardArray[resultPos.x][resultPos.y] = mine;
     
-    isClickedafter(); // 박소영 test용
-  }
-}
-//돌 놓기 박소영 test
-function isClickedd(xPos, yPos) {
-  resultPos = getMouseRoundPos(xPos, yPos);
-  if (
-    resultPos.x > out &&
-    resultPos.x < size &&
-    resultPos.y > out &&
-    resultPos.y < size &&
-    boardArray[resultPos.x][resultPos.y] == 0
-  ) {
-    boardArray[resultPos.x][resultPos.y] = turn;
-    //checkOmok(turn, resultPos.x, resultPos.y);
-    
-    turn = 3 - turn; //차례 변경
+    if(put == 0)
+    {
+    	isClickedafter(); // 박소영 test용
+    	put = 1;
+    	console.log("p0");
+  	}
+  	else
+  	{
+		put = 0;
+		console.log("p1");
+	}
   }
 }
 
