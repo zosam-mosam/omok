@@ -138,6 +138,8 @@ public class Websocket {
 						obj.put("board", Arrays.deepToString(omok.getBoard()));
 						obj.put("id", turnCount % 2  == 1 ? vo.getBlack() : vo.getWhite());
 						roomList.get(Integer.parseInt(roomId)).sendObject(userSession,obj);
+						vo.setTurnCount(1);
+						omok.resetBoard();
 					}
 				}
 				else {

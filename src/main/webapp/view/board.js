@@ -168,18 +168,9 @@ function isClicked(xPos, yPos) {
     boardArray[resultPos.x][resultPos.y] == 0
   ) {
     boardArray[resultPos.x][resultPos.y] = mine;
-    
-    if(put == 0)
-    {
-    	isClickedafter(); // 박소영 test용
-    	put = 1;
-    	console.log("p0");
-  	}
-  	else
-  	{
-		put = 0;
-		console.log("p1");
-	}
+
+    isClickedafter(); // 박소영 test용
+
   }
 }
 

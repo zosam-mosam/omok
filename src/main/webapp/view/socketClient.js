@@ -130,10 +130,14 @@ function selectedStone(message){
 }
 //박소영 test
 function putStone(message){
-	console.log(message);
-	turnCount = message.turnCount;
-	isClicked(message.xPos, message.yPos);
-	updateBoard();
+	if(message.finish == 1)
+	{	
+		
+	}
+	else{
+		turnCount = message.turnCount;
+	}
+	setBoard(message.board);
 }
 
 function addEvent(){
