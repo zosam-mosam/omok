@@ -3,7 +3,6 @@ const ctx = board.getContext("2d");
 
 let width = board.clientWidth;
 let height = board.clientHeight;
-let turn = 1; // 1 흑 2 백
 
 const out = -1;
 const size = 19;
@@ -11,13 +10,11 @@ const blank = width / 50;
 const interval = (width - 2 * blank) / (size - 1);
 const radius = interval / 2 - 2;
 
+let turnCount=1;
+
 const line = "#fff";
 const blackColor = "#E06D7A";
 const whiteColor = "#5EB89F";
-
-
-//카운트, 381되면 무승부,
-//보드 resize
 
 //보드판 초기화
 var boardArray = new Array(size);
@@ -28,8 +25,15 @@ for (var i = 0; i < size; i++) {
   }
 }
 
+//게임 시작시 보드판 초기화
+function setBoard(board) {
+  boardArray = JSON.parse(board);
+  updateBoard();
+}
+
 //돌 그리는 함수
 function drawStone(color, posX, posY, radius) {
+  //console.log(posX,posY)
   ctx.beginPath();
   ctx.strokeStyle = color;
   ctx.fillStyle = color;
@@ -37,7 +41,6 @@ function drawStone(color, posX, posY, radius) {
   ctx.fill();
   ctx.stroke();
 }
-
 //보드 그리는 함수
 function updateBoard() {
   // 배경
@@ -117,6 +120,7 @@ function getMouseRoundPos(xPos, yPos) {
     y: resultY,
   };
 }
+
 //돌이 놓이지 않은 곳이면 놓을수 있다는 표시를 해줌
 function drawNotClicked(xPos, yPos) {
   resultPos = getMouseRoundPos(xPos, yPos);
@@ -128,16 +132,12 @@ function drawNotClicked(xPos, yPos) {
     resultPos.y < size &&
     boardArray[resultPos.x][resultPos.y] == 0
   ) {
+    //console.log(1);
     updateBoard();
     ctx.beginPath();
     ctx.globalAlpha = 0.8;
-    if (turn < 2) {
-      now = blackColor;
-    } else {
-      now = whiteColor;
-    }
     drawStone(
-      now,
+      myColor,
       blank + resultPos.x * interval,
       blank + resultPos.y * interval,
       radius
@@ -147,8 +147,9 @@ function drawNotClicked(xPos, yPos) {
 }
 
 //돌 놓기
-function isClicked(xPos, yPos) {
+function isClicked(xPos, yPos, turnCount) {
   resultPos = getMouseRoundPos(xPos, yPos);
+
   if (
     resultPos.x > out &&
     resultPos.x < size &&
@@ -156,17 +157,22 @@ function isClicked(xPos, yPos) {
     resultPos.y < size &&
     boardArray[resultPos.x][resultPos.y] == 0
   ) {
-    boardArray[resultPos.x][resultPos.y] = turn;
-    //checkOmok(turn, resultPos.x, resultPos.y);
-    
-    turn = 3 - turn; //차례 변경
+    boardArray[resultPos.x][resultPos.y] = mine;
+
+    isClickedafter(turnCount);
   }
-	let message = {};
-	message.xPos = resultPos.x;
-	message.yPos = resultPos.y;
-	message.type = 2;
-	message.turn = turn;
-	sendMessage(JSON.stringify(message));
-  
 }
 
+// isClicked 하고 socket으로 보내기 박소영 test용
+function isClickedafter() {
+  //console.log("function");
+	let message = {};
+	message.type = 2;
+	message.posX = resultPos.x;
+	message.posY = resultPos.y;
+	message.turnCount = turnCount;
+	sendMessage(JSON.stringify(message));
+
+  console.log("보냈다   : "+message.turnCount);
+
+}
