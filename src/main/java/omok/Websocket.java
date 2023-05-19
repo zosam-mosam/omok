@@ -133,6 +133,12 @@ public class Websocket {
 						obj.put("finish", omok.getFinish() );
 						obj.put("board", Arrays.deepToString(omok.getBoard()));
 						obj.put("id", turnCount % 2  == 1 ? vo.getBlack() : vo.getWhite());
+						
+//						vo.getUserList().forEach(session -> {
+//							try {
+//								session.getBasicRemote()
+//							}
+//						});
 						roomList.get(Integer.parseInt(roomId)).sendObject(userSession,obj);
 						vo.setTurnCount(1);
 						omok.resetBoard();

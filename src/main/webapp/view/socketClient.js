@@ -1,5 +1,5 @@
 var roomId = new URL(window.location.href).searchParams.get("roomId");
-const webSocket = new WebSocket("ws://localhost:8080/omok/websocket/" + roomId);
+const webSocket = new WebSocket("ws://localhost:90/omok/websocket/" + roomId);
 
 const user_id = document.getElementById("user");
 const messageTextArea = document.getElementById("messageTextArea");
@@ -31,7 +31,7 @@ webSocket.onmessage = function (message) {
   }
   else if (received.type == 2) {
     putStone(received);
-    win(received);
+    if(received.finish==1)win(received);
   }
   else if (received.type == 3) {
     if (received.msg === "")
