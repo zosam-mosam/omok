@@ -34,7 +34,7 @@ public class MemberController extends HttpServlet {
 		HttpSession sess = request.getSession();
 		sess.setAttribute("loginInfo", vo);
 		
-		//doHandle(request, response);
+		doHandle(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doHandle(request, response);

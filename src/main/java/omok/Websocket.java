@@ -1,12 +1,8 @@
 package omok;
 import java.io.IOException;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.websocket.OnClose;
@@ -73,7 +69,7 @@ public class Websocket {
 				obj.put("type", 0);
 				obj.put("black", vo.getBlack());
 				obj.put("white", vo.getWhite());
-				obj.put("turn", vo.getTurnCount()); 
+				obj.put("turnCount", vo.getTurnCount()); 
 				obj.put("board", Arrays.deepToString(omok.getBoard()));
 				//전송
 				userSession.getBasicRemote().sendText(obj.toJSONString());
@@ -89,7 +85,7 @@ public class Websocket {
 				obj.put("type", 1);
 				obj.put("black", vo.getBlack());
 				obj.put("white", vo.getWhite());
-				obj.put("turn", vo.getTurnCount());
+				obj.put("turnCount", vo.getTurnCount());
 					
 				vo.getUserList().forEach(session -> {
 					try {

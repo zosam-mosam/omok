@@ -34,6 +34,7 @@
 	            <div class="board">
 	                <canvas id="board" width="700" height="700"></canvas>
 	            </div>
+                <input class="dis" onclick="disconnect()" value="Disconnect" type="button" value="기권하기/Disconnect"/>
 	        </div>
 	        <div class="right">
 	        	<div class="chatting">
@@ -46,12 +47,12 @@
             <div class="sendbox">
                 <form>
                     <div class="nametext">
-                        <input class="user" type="text" placeholder="name" size=5 value="" />
-                        <input class="textMessage" id="messageBox" type="text" placeholder="input message"/>
+                        <input class="textMessage" id="messageBox" type="text" placeholder="input message" style="cursor:pointer"/>
+                        <input class="send" onclick="sendChatMessage()" value="Send" type="button" />
                     </div>
-                    <br/>
-                    <input class="send" onclick="sendChatMessage()" value="Send" type="button" />
-                    <input class="dis" onclick="disconnect()" value="Disconnect" type="button" />
+    
+                    
+                    
                 </form>
             </div>
           </div>
@@ -62,4 +63,5 @@
 <script type="text/javascript" src="board.js"></script>
 <script type="text/javascript" src="socketClient.js"></script>
 <script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="game.js"></script>
 </html>
