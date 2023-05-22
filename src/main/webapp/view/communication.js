@@ -1,8 +1,5 @@
-var url_href = window.location.href;
-var url = new URL(url_href);
-var roomId = url.searchParams.get("roomId");
-console.log("rooid is "+roomId);
-const webSocket = new WebSocket("ws://localhost:8090/omok/websocket/"+ roomId); //나중에 바꾸기 // 192.168.0.127
+var roomId = new URL(window.location.href).searchParams.get("roomId");
+const webSocket = new WebSocket("ws://localhost:8090/omok/websocket/" + roomId);
 const user_id=document.getElementById("user");
 
 const messageTextArea = document.getElementById("messageTextArea");

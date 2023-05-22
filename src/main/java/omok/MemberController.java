@@ -15,7 +15,25 @@ import javax.xml.stream.events.StartDocument;
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("하이");
+		
+		//혜영: 필요없음 로그인 대신..
+		String[] url = request.getRequestURI().split("/");
+		String fileName = url[url.length-1];
+		MemberVO vo = new MemberVO();
+		if("login1.do".equals(fileName)) {
+			vo.setId("test1-controller");
+			vo.setNickname("test1-controller");
+			vo.setPwd("test1-controller");
+			
+		}else if("login2.do".equals(fileName)) {
+			vo.setId("test2-controller");
+			vo.setNickname("test2-controller");
+			vo.setPwd("test2-controller");
+			
+		}
+		HttpSession sess = request.getSession();
+		sess.setAttribute("loginInfo", vo);
+		
 		doHandle(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,14 +45,14 @@ public class MemberController extends HttpServlet {
 		String[] url = request.getRequestURI().split("/");
 		String fileName = url[url.length-1];
 		String path=request.getContextPath();
-		System.out.println(path);
-		System.out.println(fileName);
+		//System.out.println(path);
+		//System.out.println(fileName);
 		if("start.do".equals(fileName)) {
 			String id=request.getParameter("id");
 			String pwd=request.getParameter("pwd");
 			MemberDAO dao=new MemberDAO();
-			System.out.println(id);
-			System.out.println(pwd);
+			//System.out.println(id);
+			//System.out.println(pwd);
 			try {
 				MemberVO vo=dao.memberCheck(id, pwd);
 				HttpSession sess = request.getSession();
@@ -86,12 +104,12 @@ public class MemberController extends HttpServlet {
 			MemberDAO dao=new MemberDAO();
 			try {
 				boolean check=dao.memberCheck(id);		
-				System.out.println(check);
+				//System.out.println(check);
 				response.getWriter().print(check);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 }

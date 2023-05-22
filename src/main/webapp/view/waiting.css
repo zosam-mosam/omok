@@ -152,11 +152,12 @@ a:visitied {
   width: auto;
   font-family: "DungGeunMo";
   float: right;
+  margin : 0;
 }
 #logout:hover {
   background: #bcbcbc;
 }
-=======
+
 @font-face {
      font-family: 'DungGeunMo';
      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');

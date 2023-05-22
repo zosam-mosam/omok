@@ -1,4 +1,4 @@
-<%@page import="java.util.ArrayList"%>
+<%@ page import="java.util.ArrayList"%>
 <%@page import="lombok.Data"%>
 <%@page import="java.util.List"%>
 <%@page import="omok.MemberVO"%>
