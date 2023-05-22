@@ -32,6 +32,11 @@ public class RoomVO {
 		this.turnCount = 0;
 	}
 	
+	
+	
+	
+	
+	
 	// userList에 소켓 세션(플레이어) 추가
 	public void addLs(Session userSession) {
 		

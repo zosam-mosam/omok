@@ -85,7 +85,7 @@ public class MemberDAO {
 	}
 	public void memberJoin(String id, String pwd, String nickname) throws Exception {
 		con = dataFactory.getConnection();
-		String query = "INSERT INTO t_member VALUES(?,?,?)";
+		String query = "INSERT INTO t_member VALUES(?,?,?,0,0,0)";
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, id);

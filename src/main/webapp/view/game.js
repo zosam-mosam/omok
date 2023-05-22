@@ -117,5 +117,5 @@ function putStone(message){
 }
 
 function win(received){
-  
+  modalOn(received.id);
 }

@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="layout.css?"/>
 <link rel="stylesheet" href="button.css"/>
 <link rel="stylesheet" href="chatting.css?"/>
+<link rel="stylesheet" href="modal.css?"/>
 <link href="https://fonts.cdnfonts.com/css/8bit-wonder" rel="stylesheet">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -34,32 +35,41 @@
 	            <div class="board">
 	                <canvas id="board" width="700" height="700"></canvas>
 	            </div>
-                <input class="dis" onclick="disconnect()" value="Disconnect" type="button" value="기권하기/Disconnect"/>
+                <input class="dis" onclick="disconnect()" type="button" value="기권하기/Disconnect"/>
 	        </div>
 	        <div class="right">
 	        	<div class="chatting">
-            <div class="chathead">
-                <h4>Chatting</h4>
-            </div>
-            <div class="chatbox">
-                <textarea id="messageTextArea" rows="20" cols="40"></textarea>
-            </div>
-            <div class="sendbox">
-                <form>
-                    <div class="nametext">
-                        <input class="textMessage" id="messageBox" type="text" placeholder="input message" style="cursor:pointer"/>
-                        <input class="send" onclick="sendChatMessage()" value="Send" type="button" />
-                    </div>
-    
-                    
-                    
-                </form>
-            </div>
-          </div>
-	        	</div>
+					<div class="chathead">
+						<h4>Chatting</h4>
+					</div>
+					<div class="chatbox">
+						<textarea id="messageTextArea" rows="20" cols="40"></textarea>
+					</div>
+					<div class="sendbox">
+						<form>
+							<div class="nametext">
+								<input class="textMessage" id="messageBox" type="text" placeholder="input message" style="cursor:pointer"/>
+								<input class="send" onclick="sendChatMessage()" value="Send" type="button" />
+							</div>
+						</form>
+					</div>
+         		</div>
+	        </div>
 	     </div>
+		 <div id="modal" class="modal-overlay">
+			<div class="title">
+				<h1 id="winner">님이 승리했습니다</h1>
+			</div>
+			<div class="modal-goout">
+				<div class="content-area" onclick="location.href='waiting.jsp'">
+					<h1>나가기</h1>    
+				</div>
+			</div>
+			
+		</div>
     </div>
 </body>
+<script type="text/javascript" src="modal.js"></script>
 <script type="text/javascript" src="board.js"></script>
 <script type="text/javascript" src="socketClient.js"></script>
 <script type="text/javascript" src="main.js"></script>

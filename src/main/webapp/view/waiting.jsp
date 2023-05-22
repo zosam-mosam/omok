@@ -1,4 +1,4 @@
-<%@page import="java.util.List"%>
+<%@ page import="java.util.List"%>
 <%@ page import="omok.MemberVO"%>
 <%@ page import="omok.RoomVO"%>
 <%@ page import="omok.Websocket"%>
@@ -47,7 +47,7 @@
     				location.href="/omok/view/play.jsp?roomId="+roomNo;
     			}
     			else{
-    				alert("나가");
+    				alert("방이 다 찼습니다.");
     			}
     		}
     </script>	

@@ -152,6 +152,7 @@ a:visitied {
   width: auto;
   font-family: "DungGeunMo";
   float: right;
+  margin : 0;
 }
 #logout:hover {
   background: #bcbcbc;
